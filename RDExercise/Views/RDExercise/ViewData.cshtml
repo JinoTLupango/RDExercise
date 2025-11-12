@@ -1,0 +1,43 @@
+﻿@model List<RDExercise.Models.RDExerciseModel>
+@{
+    ViewData["Title"] = "Registered Users";
+}
+
+<h2>Registered Users</h2>
+
+@if (Model != null && Model.Count > 0)
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Firstname</th>
+                <th>Middlename</th>
+                <th>Lastname</th>
+                <th>Address</th>
+                <th>Email</th>
+                <th>Username</th>
+                <th>Password</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Firstname</td>
+                    <td>@item.Middlename</td>
+                    <td>@item.Lastname</td>
+                    <td>@item.Address</td>
+                    <td>@item.Email</td>
+                    <td>@item.Username</td>
+                    <td>@item.Password</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No data found.</p>
+}
+
+<a asp-action="Index" class="btn btn-primary mt-3">Go Back</a>

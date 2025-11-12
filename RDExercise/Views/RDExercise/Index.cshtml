@@ -1,0 +1,40 @@
+﻿@model IEnumerable<RDExercise.Models.RDExerciseModel>
+
+<h2>Registered Users</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Register New User</a>
+</p>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Firstname</th>
+                <th>Middlename</th>
+                <th>Lastname</th>
+                <th>Address</th>
+                <th>Email</th>
+                <th>Username</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Firstname</td>
+                    <td>@user.Middlename</td>
+                    <td>@user.Lastname</td>
+                    <td>@user.Address</td>
+                    <td>@user.Email</td>
+                    <td>@user.Username</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No users registered yet.</p>
+}
