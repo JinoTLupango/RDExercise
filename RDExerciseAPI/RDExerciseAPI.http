@@ -1,0 +1,6 @@
+@RDExerciseAPI_HostAddress = http://localhost:5256
+
+GET {{RDExerciseAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
