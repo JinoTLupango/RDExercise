@@ -18,8 +18,6 @@ namespace RDExerciseAPI.Controllers
         [HttpPost]
         public IActionResult SaveData([FromBody] Register model)
         {
-            string connectionString = _config.GetConnectionString("DefaultConnection");
-
             using (SqlConnection conn = new SqlConnection(_config.GetConnectionString("DefaultConnection")))
             {
                 SqlCommand cmd = new SqlCommand("sp_RDExercise", conn);
@@ -33,16 +31,20 @@ namespace RDExerciseAPI.Controllers
                 cmd.Parameters.AddWithValue("@Username", model.Username);
                 cmd.Parameters.AddWithValue("@Password", model.Password);
 
+                // return value
+                var returnParameter = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
+                returnParameter.Direction = ParameterDirection.ReturnValue;
+
                 try
                 {
                     conn.Open();
-                    int rowsAffected = cmd.ExecuteNonQuery();
-                    conn.Close();
+                    cmd.ExecuteNonQuery();
+                    int result = (int)returnParameter.Value;
 
-                    if (rowsAffected > 0)
+                    if (result == 200)
                         return Ok(new { Message = "User registered successfully!" });
-                    else
-                        return StatusCode(500, new { Message = "Insert failed." });
+
+                    return StatusCode(500, new { Message = "Insert failed." });
                 }
                 catch (Exception ex)
                 {
@@ -50,8 +52,10 @@ namespace RDExerciseAPI.Controllers
                 }
             }
         }
+
+
         [HttpGet(Name = "get")]
-        public async Task Get()
+        public IActionResult Get()
         {
             string connectionString = _config.GetConnectionString("DefaultConnection");
             List<Register> list = new List<Register>();
@@ -79,8 +83,9 @@ namespace RDExerciseAPI.Controllers
                 conn.Close();
             }
 
-            //return Ok(list);
+            return Ok(list);
         }
-    
+
+
     }
 }
